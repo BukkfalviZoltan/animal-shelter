@@ -25,7 +25,7 @@ def add_adoption(adoptions, adoption):
 
 def show_adoptions(adoptions):
     if not adoptions:
-        print("Még nincs örökbefogadás.")
+        print("Még nincs orökbefogadás.")
         return
 
     for adoption in adoptions:

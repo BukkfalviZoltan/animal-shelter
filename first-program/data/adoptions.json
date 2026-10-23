@@ -1,0 +1,27 @@
+[
+  {
+    "animal_id": 1,
+    "animal_name": "Buddy",
+    "adopter": "Anna"
+  },
+  {
+    "animal_id": 2,
+    "animal_name": "Luna",
+    "adopter": "Peter"
+  },
+  {
+    "animal_id": 3,
+    "animal_name": "Max",
+    "adopter": "Kata"
+  },
+  {
+    "animal_id": 4,
+    "animal_name": "Bella",
+    "adopter": "Gabor"
+  },
+  {
+    "animal_id": 5,
+    "animal_name": "Charlie",
+    "adopter": "Eszter"
+  }
+]

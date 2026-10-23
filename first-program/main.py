@@ -1,4 +1,7 @@
-import os
+
+import json
+from pathlib import Path
+
 from shelter.adoptions import (
     add_adoption,
     create_adoption,
@@ -6,6 +9,7 @@ from shelter.adoptions import (
     save_adoptions,
     show_adoptions,
 )
+
 from shelter.animals import (
     find_animal_by_id,
     load_animals,
@@ -14,21 +18,34 @@ from shelter.animals import (
     update_animal_status,
 )
 
-ANIMALS_FILE = "animals.json"
-ADOPTIONS_FILE = "adoptions.json"
+
+BASE_DIR = Path(__file__).resolve().parent
+DATA_DIR = BASE_DIR / "data"
+
+ANIMALS_FILE = DATA_DIR / "animals.json"
+ADOPTIONS_FILE = DATA_DIR / "adoptions.json"
 
 
 def init_json_file(file_path):
-    if not os.path.exists(file_path):
-        with open(file_path, "w", encoding="utf-8") as f:
-            f.write("[]")
+    """Létrehozza a JSON-fájlt, ha még nem létezik."""
+    file_path.parent.mkdir(parents=True, exist_ok=True)
+
+    if not file_path.exists():
+        with open(file_path, "w", encoding="utf-8") as file:
+            json.dump([], file, indent=2, ensure_ascii=False)
+
 
 def main():
+    
     init_json_file(ANIMALS_FILE)
     init_json_file(ADOPTIONS_FILE)
 
-    animals = load_animals(ANIMALS_FILE)
-    adoptions = load_adoptions(ADOPTIONS_FILE)
+    try:
+        animals = load_animals(ANIMALS_FILE)
+        adoptions = load_adoptions(ADOPTIONS_FILE)
+    except json.JSONDecodeError:
+        print("Hiba: valamelyik JSON-fájl tartalma érvénytelen.")
+        return
 
     while True:
         print("\n=== MENEDÉKHELY REGISZTRÁCIÓ ===")
@@ -48,6 +65,7 @@ def main():
 
         elif valasztas == "3":
             print("\n--- Új örökbefogadás ---")
+
             try:
                 animal_id = int(input("Add meg az állat ID-ját: "))
             except ValueError:
@@ -56,34 +74,45 @@ def main():
 
             animal = find_animal_by_id(animals, animal_id)
 
-            if not animal:
+            if animal is None:
                 print(f"Nem található állat ezzel az ID-val: {animal_id}")
+
             elif not animal["available"]:
                 print(f"Sajnáljuk, {animal['name']} már nem elérhető!")
+
             else:
-                adopter_name = input("Add meg az örökbefogadó nevét: ").strip()
+                adopter_name = input(
+                    "Add meg az örökbefogadó nevét: "
+                ).strip()
+
                 if not adopter_name:
                     print("Hiba: Az örökbefogadó neve nem lehet üres!")
                     continue
 
-                uj_orokbefogadas = create_adoption(animal, adopter_name)
+                uj_orokbefogadas = create_adoption(
+                    animal, adopter_name
+                )
                 add_adoption(adoptions, uj_orokbefogadas)
 
-                fake_adoption_for_update = {
+                adoption_for_update = {
                     "animal_id": animal_id,
                     "available": False,
                 }
-                update_animal_status(animals, fake_adoption_for_update)
+
+                update_animal_status(animals, adoption_for_update)
 
                 save_animals(ANIMALS_FILE, animals)
                 save_adoptions(ADOPTIONS_FILE, adoptions)
+
                 print(
-                    f"Sikeres örökbefogadás! {animal['name']} új gazdája: {adopter_name}."
+                    f"Sikeres örökbefogadás! "
+                    f"{animal['name']} új gazdája: {adopter_name}."
                 )
 
         elif valasztas == "4":
             print("Kilépés... Szép napot!")
             break
+
         else:
             print("Érvénytelen választás, kérlek 1 és 4 között válassz!")
 

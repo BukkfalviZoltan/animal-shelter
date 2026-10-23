@@ -1,0 +1,58 @@
+[
+  {
+    "id": 1,
+    "name": "Buddy",
+    "type": "dog",
+    "age": 3,
+    "available": false
+  },
+  {
+    "id": 2,
+    "name": "Luna",
+    "type": "cat",
+    "age": 2,
+    "available": false
+  },
+  {
+    "id": 3,
+    "name": "Max",
+    "type": "dog",
+    "age": 5,
+    "available": false
+  },
+  {
+    "id": 4,
+    "name": "Bella",
+    "type": "cat",
+    "age": 1,
+    "available": false
+  },
+  {
+    "id": 5,
+    "name": "Charlie",
+    "type": "rabbit",
+    "age": 2,
+    "available": false
+  },
+  {
+    "id": 6,
+    "name": "Daisy",
+    "type": "dog",
+    "age": 4,
+    "available": true
+  },
+  {
+    "id": 7,
+    "name": "Milo",
+    "type": "cat",
+    "age": 6,
+    "available": true
+  },
+  {
+    "id": 8,
+    "name": "Coco",
+    "type": "rabbit",
+    "age": 1,
+    "available": true
+  }
+]

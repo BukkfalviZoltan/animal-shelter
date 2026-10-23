@@ -23,5 +23,10 @@
     "animal_id": 5,
     "animal_name": "Charlie",
     "adopter": "Eszter"
+  },
+  {
+    "animal_id": 2,
+    "animal_name": "Luna",
+    "adopter": "Nénike"
   }
 ]
